@@ -2,23 +2,18 @@ services:
   - type: web
     name: amazonia-api
     runtime: node
-    rootDir: .
-    buildCommand: npm install
-    startCommand: npm run server
+    rootDir: server
     plan: free
-    healthCheckPath: /api/health
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
+      - key: NODE_VERSION
+        value: 22
       - key: PORT
-        value: 5000
-      - key: NODE_ENV
-        value: production
+        value: 10000
       - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
         sync: false
-      - key: MONGO_URI
-        sync: false
-      - key: MONGO_URI_DIRECT
-        sync: false
-      - key: MONGO_DNS_SERVERS
-        value: 8.8.8.8,1.1.1.1
       - key: CLIENT_URLS
         sync: false
