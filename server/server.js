@@ -13,8 +13,9 @@ app.use(
   cors({
     origin(origin, callback) {
       const allowedOrigins = [...new Set([...config.clientUrls, "http://localhost:5173"])];
+      const isVercelPreview = origin?.endsWith(".vercel.app");
 
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
         callback(null, true);
         return;
       }
