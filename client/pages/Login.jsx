@@ -23,6 +23,22 @@ const demoCredentials = [
   { role: "User", email: "user@amazonia.com", password: "User@1234" },
 ];
 
+function getLoginErrorMessage(error) {
+  if (error.response?.data?.message) {
+    return error.response.data.message;
+  }
+
+  if (error.code === "ERR_NETWORK") {
+    return "Cannot reach the backend. Check Vercel API URL and Render CLIENT_URLS.";
+  }
+
+  if (error.message) {
+    return error.message;
+  }
+
+  return "Unable to sign in right now. Please try again.";
+}
+
 export default function Login({ login, sessionMessage }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,7 +70,7 @@ export default function Login({ login, sessionMessage }) {
     } catch (error) {
       setSubmitState({
         loading: false,
-        error: error.response?.data?.message || "Unable to sign in. Check your credentials.",
+        error: getLoginErrorMessage(error),
         success: "",
       });
     }
